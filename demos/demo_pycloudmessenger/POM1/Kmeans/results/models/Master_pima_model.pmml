@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-14T12:07:50Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension>PMMLPipeline(steps=[('estimator', KMeans(n_clusters=2))])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="x1" optype="continuous" dataType="double"/>
+		<DataField name="x2" optype="continuous" dataType="double"/>
+		<DataField name="x3" optype="continuous" dataType="double"/>
+		<DataField name="x4" optype="continuous" dataType="double"/>
+		<DataField name="x5" optype="continuous" dataType="double"/>
+		<DataField name="x6" optype="continuous" dataType="double"/>
+		<DataField name="x7" optype="continuous" dataType="double"/>
+		<DataField name="x8" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<ClusteringModel functionName="clustering" algorithmName="sklearn.cluster._kmeans.KMeans" modelClass="centerBased" numberOfClusters="2">
+		<MiningSchema>
+			<MiningField name="x1"/>
+			<MiningField name="x2"/>
+			<MiningField name="x3"/>
+			<MiningField name="x4"/>
+			<MiningField name="x5"/>
+			<MiningField name="x6"/>
+			<MiningField name="x7"/>
+			<MiningField name="x8"/>
+		</MiningSchema>
+		<Output>
+			<OutputField name="cluster" optype="categorical" dataType="string"/>
+			<OutputField name="affinity(0)" optype="continuous" dataType="double" feature="affinity" value="0"/>
+			<OutputField name="affinity(1)" optype="continuous" dataType="double" feature="affinity" value="1"/>
+		</Output>
+		<ComparisonMeasure kind="distance">
+			<squaredEuclidean/>
+		</ComparisonMeasure>
+		<ClusteringField field="x1"/>
+		<ClusteringField field="x2"/>
+		<ClusteringField field="x3"/>
+		<ClusteringField field="x4"/>
+		<ClusteringField field="x5"/>
+		<ClusteringField field="x6"/>
+		<ClusteringField field="x7"/>
+		<ClusteringField field="x8"/>
+		<Cluster id="0" size="65">
+			<Array type="real">-0.48110113661043874 -0.5342276001962657 -0.6116086145881117 -0.4774520233320232 -0.43327198420462665 -0.4267758780808949 -0.19419756340018468 -0.590584344869584</Array>
+		</Cluster>
+		<Cluster id="1" size="35">
+			<Array type="real">0.4356769945519372 0.5292477348969984 0.5294213164214578 0.5616131131063298 0.5232998499550405 0.5047693944594256 0.46059691964925376 0.47029510526314294</Array>
+		</Cluster>
+	</ClusteringModel>
+</PMML>

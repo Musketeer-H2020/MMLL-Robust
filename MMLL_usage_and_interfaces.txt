@@ -1,0 +1,180 @@
+=================================================================================
+               Musketeer Machine Learning Library (MMLL): usage and interfaces
+               Integrated design by UC3M and TREE for POMs 1-6
+=================================================================================
+
+Requirement: 
+
+- to operate the MMLL a communications object is needed. We will describe first the structure and methods of such an object.
+
+====================================================================
+====================================    COMMS    ===================
+====================================================================
+
+We instantiate a comms object at the master script, as follows: 
+
+comms = Comms(workers_ids, master_id)
+
+if the master_id is already known to the system, the object can be instantiated as:
+
+comms = Comms(workers_ids)
+
+but the list of workers_ids is mandatory.
+
+At the worker script, the comms object can be instantiated as:
+
+comms = Comms(workers_id)
+
+* Once the communications object "comms" is instantiated, it should contain all the needed information to send and receive messages. It has to provide the following methods:
+
+==== "send" ====
+status = comms.send(packet, <receiver_address>)
+    Description: Sends a message to the receiver_address.
+    Input:
+        packet: the message to be sent, usually a dictionary.
+        <receiver_address>: (optional) the address of the node receiving the packet. It can be omitted if the comms object already knows where to send the message.
+    Output: 
+        None (if any error is produced, an exception is raised)
+
+==== "receive" ====
+packet = comms.receive()
+    Description: Checks if a message has been received (from any other node) and returns the content. If nothing is received, it returns None. It should ideally be implemented using a CallBack, to avoid unneccessary waiting times.
+    Input: 
+        None
+    Output: 
+        packet: the received message, in the same form as sent by the sender if a message has been received, or None if no message is received.
+
+==== "broadcast" ====
+status = comms.broadcast(packet, <receivers_list>)
+    Description: Sends a message to all the receivers in "receivers_list".
+    Input:
+        packet: the message to be sent, usually a dictionary.
+        <receivers_list>: (optional) list of addresses receiving the packet. It can be omitted if the comms object already knows the list of recipients.
+    Output: 
+        None (if any error is produced, an exception is raised)
+
+==== "roundrobin" ====
+status = comms.roundrobin(packet, <receivers_list>)
+    Description: Routes a message through every receiver (sequentially) in "receivers_list".
+    Input:
+        packet: the message to be sent, usually a dictionary.
+        <receivers_list>: (optional) list of addresses to route the packet. It can be omitted if the comms object already knows the ring route.
+    Output: 
+        None (if any error is produced, an exception is raised)
+=========================================================================================================================
+
+
+************************************************************************************************
+********************************** MMLL use  ***************************************************
+************************************************************************************************
+
+
+=============================================
+At every worker
+=============================================
+
+* We create the WorkerNode object: 
+
+wn = WorkerNode(pom, worker_address, comms, logger, verbose)
+    '''
+    Input parameters: 
+        pom(integer 1-6): pom number *** SAME AS IN MASTERNODE!!! ***
+        worker_address (string): the address/id of the worker
+        comms (object): the communications object, includes all needed parameters and methods to send/receive messages (send, receive, broadcast, roundrobin, etc.)
+        logger : the logging object
+        verbose: determines if detailed messages are printed on screen or not
+        NOTE: in some POMs, some extra parameters may be needed. They will be passed as kwargs.
+    '''
+
+* We load the training data. The data can be obtained using a data connector or by any other procedure. If the training data is not available, the Worker cannot contribute to the learning process.
+
+wn.set_training_data(Xtr, ytr)
+wn.set_all_data(Xtr, ytr, Xval=None, yval=None, Xtst=None, ytst=None)
+
+* We create the Machine Learning model
+
+wn.create_model_worker(model_type)
+    '''
+    Input parameters: 
+        model_type (string): the selected model ('LC', 'SVM', etc., the possible choices will be available). *** SAME AS IN MASTERNODE!!! ***
+        Note: The workernode does not need to know the model parameters, the Masternode handles them.
+    '''
+
+* We set the WorkerNode in a -listening- state, and ready to interact with the MasterNode.
+
+wn.run()
+
+* We retrieve the trained model: 
+
+model = mn.get_model()
+
+
+
+
+
+
+=============================================
+At master process (aggregator)
+=============================================
+
+* We create the Masternode object:
+
+mn = Masternode(pom, workers_adresses, comms, logger, verbose)
+    Input parameters: 
+        pom(integer 1-6): pom number 
+        workers_adresses(list of strings): the addresses of the workers that have joined a given task
+        comms (object): the communications object, includes all needed parameters and methods to send/receive messages (send, receive, broadcast, roundrobin, etc.). 
+        logger : the logging object
+        verbose: determines if detailed messages are printed on screen or not
+        NOTE: in some POMs, some extra parameters may be needed. They will be passed as kwargs.
+    
+* We set the validation and test data (optional). The data can be obtained using a data connector or by any other procedure. It the validation data is not available, some cross-validation procedures cannot be applied. If the test data is not available, the resulting model cannot be evaluated. 
+
+        mn.set_validation_data(X, y, add_bias)
+        mn.set_test_data(X, y, add_bias)
+        mn.set_all_data(Xtr, ytr, Xval=None, yval=None, Xtst=None, ytst=None, features_description)
+
+    Input parameters: 
+        X: Input data matrix: row = No. patterns , col = No. features
+        y: target vector: row = No. patterns
+        add_bias: (boolean), if True it adds to X a first column of ones
+
+* We create the Machine Learning model at Master
+
+mn.create_model_Master(model_type, model_parameters)
+    Input parameters: 
+        model_type (string): the selected model ('LC', 'SVM', etc., the possible choices will be accessible in the MMLL documentation)
+        model_parameters(dictionary): parameters needed by the ML model. Every model will indicate the needed parameters (in the documentation).
+
+* We train the model. We assume that the WorkerNodes are already running. 
+
+mn.fit()
+
+* We retrieve the trained model: 
+
+model = mn.get_model()
+
+* We save the model to a file:
+
+mn.save_model(filename)
+    Input: 
+        filename: name of the file to save the model. If None, it generates a name and saves the models in ./results/models/
+
+* We load the model from a file:
+
+model = mn.load_model(filename)
+    Input: 
+        filename: name of the file to save the model. If None, it generates a name and saves the models in ./results/models/
+
+
+* We can use the trained model for new predictions
+
+model.predict(X)
+
+model.assessment  (dict)
+
+model.assessment['AUC_tst']
+model.assessment['Accuracy_tst']
+
+
+

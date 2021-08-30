@@ -1,0 +1,36 @@
+=====================================================================================
+	Install instructions under Linux OS
+=====================================================================================
+
+- It is adviceable to install a python distribution like Anaconda (Python 3.7). Please proceeed to the Anaconda download page (https://www.anaconda.com/distribution/) and follow the instructions according to your Operative System
+
+- Once Anaconda is correctly installed, open a bash/dash terminal and execute the following commands:
+
+conda update conda
+
+conda update anaconda
+
+- Next, we create a conda environment with all the required libraries (Note that the next command is a single line)
+
+conda create -n demo python=3.7.4 flask requests numpy ipython scikit-learn matplotlib tqdm pytorch-cpu torchvision seaborn transitions==0.6.9 pygraphviz==1.5 -c pytorch -c defaults -c conda-forge --yes
+
+You may need some assistance from a System Manager if you fail to install the Python required libraries.
+
+
+Uncompress the file D4_6.zip. In the D4_6 folder, you should find the following subfolder structure:
+
+demo/
+documentation_html/
+input_data/
+MMLL/
+results/
+
+* demo: the folder where the execution scripts are
+
+* documentation_html: the folder where the software documentation is. To browse it, just open the index file in it by double-clicking on it. The documentation will be shown in a web browser.
+
+* input_data: some small datasets are provided for running the demos. If you want to execute any demo with a larger dataset, you must download them from this link (https://drive.google.com/open?id=1NOMvmppt5qfGmGjA14hsdsTgB9KD7_Oz), but the provided datasets are enough to explore the Machine Learning Library usage.
+
+* MMLL: The Musketeer Machine Learning Library (POMs 4, 5 and 6)
+
+* results. Some output figures are saved here. Also a subfolder with execution logs is available.
