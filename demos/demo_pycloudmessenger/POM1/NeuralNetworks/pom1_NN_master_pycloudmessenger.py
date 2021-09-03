@@ -25,6 +25,7 @@ import sys, os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Disables tensorflow warnings
 import tensorflow as tf
 import onnxruntime
+from sklearn.metrics import accuracy_score
 
 # Add higher directory to python modules path.
 sys.path.append("../../../../")
@@ -103,17 +104,6 @@ if __name__ == "__main__":
     task_definition = {"quorum": Nworkers, 
                        "POM": pom, 
                        "model_type": model_type, 
-                       "Nmaxiter": 5, 
-                       "learning_rate": 0.15,
-                       "model_architecture": model_architecture,
-                       "optimizer": optimizer,
-                       "momentum": 1,
-                       "nesterov": 'False',
-                       "loss": 'categorical_crossentropy',
-                       "metric": 'accuracy',
-                       "batch_size": 128,
-                       "num_epochs": 2,
-                       "model_averaging": model_averaging
                       }
 
 
@@ -166,20 +156,24 @@ if __name__ == "__main__":
                         "input_types": feature_array
                         }
 
+
   
     # Creating a ML model
     model_parameters = {}
-    model_parameters['learning_rate'] = float(task_definition['learning_rate'])
-    model_parameters['Nmaxiter'] = int(task_definition['Nmaxiter'])
-    model_parameters['model_architecture'] = task_definition['model_architecture']
-    model_parameters['optimizer'] = task_definition['optimizer']
-    model_parameters['momentum'] = task_definition['momentum']
-    model_parameters['nesterov'] = task_definition['nesterov']
-    model_parameters['loss'] = task_definition['loss']
-    model_parameters['metric'] = task_definition['metric']
-    model_parameters['batch_size'] = int(task_definition['batch_size'])
-    model_parameters['num_epochs'] = int(task_definition['num_epochs'])
-    model_parameters['model_averaging'] = task_definition['model_averaging']
+    model_parameters['learning_rate'] = 0.15
+    model_parameters['Nmaxiter'] = 5
+    model_parameters['model_architecture'] = model_architecture
+    model_parameters['optimizer'] = optimizer
+    model_parameters['momentum'] = 1
+    model_parameters['nesterov'] = 'False'
+    model_parameters['loss'] = 'categorical_crossentropy'
+    model_parameters['metric'] = 'accuracy'
+    model_parameters['batch_size'] = 128
+    model_parameters['num_epochs'] = 2
+    model_parameters['model_averaging'] = model_averaging
+    model_parameters['aggregator'] = None
+
+
     mn.create_model_Master(model_type, model_parameters=model_parameters)
     display('MMLL model %s is ready for training!' % model_type, logger, verbose) 
 
@@ -240,8 +234,8 @@ if __name__ == "__main__":
     onnx_inputs = {onnx_session.get_inputs()[0].name: Xtst}
     onnx_output = onnx_session.run(None, onnx_inputs)[0]
     onnx_output = np.argmax(onnx_output, axis=-1) # Convert to labels
-    err_onnx = np.mean((preds_tst.ravel() - onnx_output.ravel())**2)
-    display('Error in ONNX predictions is %f' %err_onnx, logger, verbose)
+    err_onnx = accuracy_score(y,onnx_output)
+    display('Test accuracy in ONNX model is %f' %err_onnx, logger, verbose)
 
 
     # Terminate workers
