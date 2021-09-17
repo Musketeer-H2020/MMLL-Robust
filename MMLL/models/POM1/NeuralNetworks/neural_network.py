@@ -362,7 +362,7 @@ class NN_Worker(POM1_CommonML_Worker):
     Class implementing Neural Networks, run at Worker node. It inherits from :class:`POM1_CommonML_Worker`.
     '''
 
-    def __init__(self, master_address, comms, logger, verbose=False, Xtr_b=None, ytr=None):
+    def __init__(self, master_address, comms, logger, verbose=False, Xtr_b=None, ytr=None, worker_operations = None):
         """
         Create a :class:`NN_Worker` instance.
 
@@ -386,6 +386,13 @@ class NN_Worker(POM1_CommonML_Worker):
         ytr: ndarray
             Array containing the labels for training.
         """
+
+        self.worker_operations = None
+
+        if worker_operations is not None:
+            Xtr_b, ytr = worker_operations.preprocess(Xtr_b,ytr)
+            self.worker_operations = worker_operations
+
         self.Xtr_b = Xtr_b
         self.ytr = ytr
         self.worker_address = comms.id
@@ -442,8 +449,11 @@ class NN_Worker(POM1_CommonML_Worker):
         if packet['action'] == 'LOCAL_TRAIN':
             self.display(self.name + ' %s: Updating model locally' %self.worker_address)
             weights = packet['data']['model_weights']
-            self.model.keras_model.set_weights(weights)
-            self.model.keras_model.fit(self.Xtr_b, self.ytr, epochs=self.num_epochs, batch_size=self.batch_size, verbose=1)
+            if self.worker_operations is not None:
+                self.worker_operations.process(self.model, weights, self.Xtr_b, self.ytr, epochs=self.num_epochs, batch_size=self.batch_size)
+            else:
+                self.model.keras_model.set_weights(weights)
+                self.model.keras_model.fit(self.Xtr_b, self.ytr, epochs=self.num_epochs, batch_size=self.batch_size, verbose=1)
             action = 'LOCAL_UPDATE'
             data = {'weights': self.model.keras_model.get_weights()}
             packet = {'action': action,'id': self.worker_address, 'data': data}            

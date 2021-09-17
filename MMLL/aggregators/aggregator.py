@@ -72,6 +72,41 @@ class ModelAveraging(Aggregator):
         model.keras_model.set_weights(new_weights)        
 
 
+class ModelMedian(Aggregator):
+    """
+    This class implements the Stocastic Gradient Descent optimization approach, run at Master node. It inherits from :class:`GradientOptimizer`.
+    """
+
+    def __init__(self):
+        """
+        Create a :class:`ModelAveraging` instance.
+
+        """
+
+
+    def aggregate(self, model, dict_weights):
+        """
+        Aggregate the gradients received from a set of workers.
+
+        Parameters
+        ----------
+        model: :class:`NN_model`
+            Neural Network model object.
+
+        list_gradients: list
+            List containing the gradients of the different workers.
+        """
+
+        new_weights = []
+        worker_ids = list(dict_weights.keys())
+        for index_layer in range(len(dict_weights[worker_ids[0]])):
+            layer_weights = []
+            for worker in worker_ids:
+                layer_weights.append(dict_weights[worker][index_layer])                 
+            mean_weights = np.median(layer_weights, axis=0) # Average layer weights for all workers
+            new_weights.append(mean_weights)
+
+        model.keras_model.set_weights(new_weights)        
 
 
 
@@ -103,7 +138,7 @@ class SGD(Aggregator):
 
     def aggregate(self, model, dict_gradients):
         """
-        Aggregate the gradients received from a set of workers.
+        Aggregate the gradients received from a set of workers using the median.
 
         Parameters
         ----------
@@ -113,7 +148,6 @@ class SGD(Aggregator):
         dict_gradients: dict
             Dict containing the gradients of the different workers.
         """
-
         worker_ids = list(dict_gradients.keys())
 
         if self.accumulated is None and self.momentum>0:

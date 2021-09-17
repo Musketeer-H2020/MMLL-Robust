@@ -19,7 +19,7 @@ class WorkerNode(Common_to_all_objects):
     This class represents the main process associated to every Worker Node, and it responds to the commands sent by the master to carry out the training procedure under all POMs.
     """
 
-    def __init__(self, pom, comms, logger, verbose=False, **kwargs):
+    def __init__(self, pom, comms, logger, verbose=False, worker_operations=None, **kwargs):
 
         """
         Create a :class:`WorkerNode` instance.
@@ -48,6 +48,7 @@ class WorkerNode(Common_to_all_objects):
             self.master_address = 'ma'       
             self.process_kwargs(kwargs)
             self.worker_address = self.comms.id
+            self.worker_operations = worker_operations
             self.cryptonode_address = 'ca'          # The id of the cryptonode (string), default value
             self.terminate = False          # used to terminate the process
             self.model_type = None          # ML model to be used, to be defined later
@@ -198,7 +199,7 @@ class WorkerNode(Common_to_all_objects):
             pass
 
 
-    def create_model_worker(self, model_type):
+    def create_model_worker(self, model_type, worker_operations = None):
         """
         Create the model object to be used for training at the Worker side.
 
@@ -217,7 +218,7 @@ class WorkerNode(Common_to_all_objects):
 
                 elif model_type == 'NN':
                     from MMLL.models.POM1.NeuralNetworks.neural_network import NN_Worker
-                    self.workerMLmodel = NN_Worker(self.master_address, self.comms, self.logger,  self.verbose, self.Xtr_b, self.ytr)
+                    self.workerMLmodel = NN_Worker(self.master_address, self.comms, self.logger,  self.verbose, self.Xtr_b, self.ytr, self.worker_operations)
 
                 elif model_type == 'SVM':
                     from MMLL.models.POM1.SVM.SVM import SVM_Worker
