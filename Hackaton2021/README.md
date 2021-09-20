@@ -42,12 +42,7 @@ In the hackaton we will test 3 different scenarios:
 2. Master node with unknown defence 1 and two malicious workers.
 3. Master node with unknown defence 2 and two malicious workers.
 
-The participants must implement the attack of the two malicious workers. This attack must be focused on decreasing the accuracy of the predictive model over the tree scenarios. The attacks have to be implemented in the file attack.py that contains two classes (ImplementedAttack1 and ImplementedAttack2). Each one of the two malicious workers will make use of these attacks.
-
-These classes contain two methods to be implemnted:
-
-1. preprocess -> It is executed once at the begining of the training procedure. It receives the local dataset and returns a also a dataset. It can be used to perform modifications over the training dataset that will remain constant along the training procedure.
-2. process -> It will be executed every training iteration. It recieves the neural network, the dataset and the training parameters (batch size and number of epochs) and returns the neural network to be sent back to the master node.
+The participants must implement the attack of the two malicious workers. This attack must be focused on decreasing the accuracy of the predictive model over the tree scenarios. 
 
 
 ## Installation
@@ -64,6 +59,12 @@ $ npm start
 ## Hackaton Instructions
 ***
 
+The attacks have to be implemented in the file attack.py that contains two classes (ImplementedAttack1 and ImplementedAttack2). Each one of the two malicious workers will make use of these attacks.
+
+These classes contain two methods to be implemnted:
+
+1. preprocess -> It is executed once at the begining of the training procedure. It receives the local dataset and returns a also a dataset. It can be used to perform modifications over the training dataset that will remain constant along the training procedure.
+2. process -> It will be executed every training iteration. It recieves the neural network, the dataset and the training parameters (batch size and number of epochs) and returns the neural network to be sent back to the master node.
 
 ## File Description
 ***
