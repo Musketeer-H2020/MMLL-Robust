@@ -13,8 +13,7 @@ MUSKETEER 2nd Hackathon:
 ***
 This repository contains the specific files for the Hackaton2021 organized under the european H2020 project Musketeer (grant agreement No 824988).
 
-### Screenshot
-![Musketeer logo](https://i2.wp.com/musketeer.eu/wp-content/uploads/2019/02/cropped-MUSKETEER_logo_RGB_2.jpg)
+![Musketeer logo](https://i2.wp.com/musketeer.eu/wp-content/uploads/2019/02/cropped-MUSKETEER_logo_RGB_2.jpg?w=600&ssl=1)
 
 ## Technologies
 ***
