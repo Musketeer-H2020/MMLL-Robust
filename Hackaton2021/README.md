@@ -7,12 +7,12 @@ MUSKETEER 2nd Hackathon:
 1. [General Info](#general-info)
 2. [Installation](#installation)
 2. [Scenarios And Rules](#scenarios-and-rules)
-4. [Hackaton Instructions](#hackaton-instructions)
+4. [Hackathon Instructions](#hackathon-instructions)
 3. [File description](#file-description)
 
 ### General Info
 ***
-This repository contains the specific files for the Hackaton2021 organized under the european H2020 project Musketeer (grant agreement No 824988).
+This repository contains the specific files for the Hackathon2021 organized under the european H2020 project Musketeer (grant agreement No 824988).
 
 ![Musketeer logo](https://i2.wp.com/musketeer.eu/wp-content/uploads/2019/02/cropped-MUSKETEER_logo_RGB_2.jpg?w=600&ssl=1)
 
@@ -23,7 +23,7 @@ We are going to work in a federated learning scenario.
 
 Standard machine learning approaches require centralizing the training data on one machine or in a datacenter. Federated Learning enables different devices to collaboratively learn a shared prediction model while keeping all the training data on device, decoupling the ability to do machine learning from the need to store the data in the cloud. This goes beyond the use of local models that make predictions on mobile devices (like the Mobile Vision API and On-Device Smart Reply) by bringing model training to the device as well.
 
-In this hackaton we have the following elements:
+In this hackathon we have the following elements:
 
 - A master node -> That orchestrate the training
 - 10 worker nodes -> Where every worker contains a part of the training set.
@@ -36,7 +36,7 @@ The training consists on a model averaging procedure. It is an iterative process
 
 This procedure is reapeated several times.
 
-In the hackaton we will test 3 different scenarios:
+In the hackathon we will test 3 different scenarios:
 
 1. Master node with no defences and two malicious workers.
 2. Master node with unknown defence 1 and two malicious workers.
@@ -56,7 +56,7 @@ $ npm install
 $ npm start
 ```
 
-## Hackaton Instructions
+## Hackathon Instructions
 ***
 
 The attacks have to be implemented in the file attack.py that contains two classes (ImplementedAttack1 and ImplementedAttack2). Each one of the two malicious workers will make use of these attacks.
@@ -86,8 +86,8 @@ The repository contains the following files:
 ├── README.md -> This file
 ├── attack.py -> The classes where that participants must implement the attack
 ├── keras_model_CNN_mnist.json
-├── master_hackaton.py -> The code in charge of executing the master node.
-├── worker_hackaton.py -> The code in charge of executing a worker node.
+├── master_hackathon.py -> The code in charge of executing the master node.
+├── worker_hackathon.py -> The code in charge of executing a worker node.
 ├── script_master_and_honest_workers.sh -> A script that run the master and eight worker nodes.
 ├── script_malicious_workers.sh -> A script that run the workers with the attack implemented in attack.py.
 └── README.md```
