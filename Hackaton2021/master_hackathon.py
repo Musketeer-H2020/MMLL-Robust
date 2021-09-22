@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 '''
 @author:  Roberto Diaz
-February 2020
+September 2021
 
-Example of use: python pom1_NN_model_averaging_master_pycloudmessenger.py --user <user> --password <password> --task_name <task_name> --scenario <scenario>
+Example of use: python master_hackathon.py --user <user> --password <password> --task_name <task_name> --scenario <scenario>
 
 Parameters:
     - user: String with the name of the user. If the user does not exist in the pycloudmessenger platform a new one will be created
     - password: String with the password
     - task_name: String with the name of the task. If the task already exists, an error will be displayed
-    - normalization: String indicating whether to apply normalization. Possible options are std or minmax. By default no normalization is used
     - implementation: String indicating whether to use gradient_averaging or model_averaging implementation. By default the latter is used.
-    - optimizer: String indicating the type of optimizer to use (only valid when gradient implementation=gradient_descent).
+    - scenario: Int indicating the scenario of the hackathon (only value 0 is available for participants).
 
 '''
 

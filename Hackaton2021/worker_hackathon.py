@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 '''
-@author:  Marcos Fernandez Diaz
-November 2020
+@author:  Roberto Diaz Morales
+September 2021
 
-Example of use: python pom1_NN_worker_pycloudmessenger.py --user <user> --password <password> --task_name <task_name> --id <id>
+Example of use: python worker_hackaton.py --user <user> --password <password> --task_name <task_name> --id <id> --attack_id <attack_id>
 
 Parameters:
     - user: String with the name of the user. If the user does not exist in the pycloudmessenger platform a new one will be created
     - password: String with the password
     - task_name: String with the name of the task. If the task already exists, an error will be displayed
-    - id: Integer representing the partition of data to be used by the worker. Each worker should use a different partition, possible values are 0 to 4.
-
+    - id: Integer representing the partition of data to be used by the worker. Each worker should use a different partition, possible values are 0 to 9.
+    - attack_id: Integer, possible values are 0 to 2 [0 = no attack, 1 = attack implemented in class ImplementedAttack1, 2 = attack implemented in class ImplementedAttack2].
 '''
 
 # Import general modules
