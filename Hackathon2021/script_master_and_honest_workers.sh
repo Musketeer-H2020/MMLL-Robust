@@ -4,8 +4,8 @@
 
  
 # First we kill the processes that could be crashed from previous executions
-pkill -9 -f "python3 master_hackaton.py"
-pkill -9 -f "python3 worker_hackaton.py"
+pkill -9 -f "python3 master_hackathon.py"
+pkill -9 -f "python3 worker_hackathon.py"
 
 # Secondly, we launch the master node and wait some seconds in order to be ready to receive the worker connections
 python3 master_hackathon.py --user masteruser --password masteruser --task_name $1 --scenario 1 &

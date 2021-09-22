@@ -146,8 +146,8 @@ class ImplementedAttack1(Attack):
 
         ########################################
         # TO BE MODIFIED BY THE PARTICIPANTS
-        Xtr_final = Xtr_b.clone()  # This is an example with no attack, the dataset is not modified
-        ytr_final = ytr.clone()    # This is an example with no attack, the labels are not modified
+        Xtr_final = Xtr_b.copy()  # This is an example with no attack, the dataset is not modified
+        ytr_final = ytr.copy()    # This is an example with no attack, the labels are not modified
         #########################################
 
         return Xtr_final,ytr_final
@@ -237,8 +237,8 @@ class ImplementedAttack2(Attack):
         """
         ########################################
         # TO BE MODIFIED BY THE PARTICIPANTS
-        Xtr_final = Xtr_b.clone()  # This is an example with no attack, the dataset is not modified
-        ytr_final = ytr.clone()    # This is an example with no attack, the labels are not modified
+        Xtr_final = Xtr_b.copy()  # This is an example with no attack, the dataset is not modified
+        ytr_final = ytr.copy()    # This is an example with no attack, the labels are not modified
         #########################################
 
         return Xtr_final,ytr_final
