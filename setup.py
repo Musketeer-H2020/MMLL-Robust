@@ -15,10 +15,21 @@ setup(name='MMLL',
       author_email='jose.fernandez@treelogic.com',
       url='https://github.com/Musketeer-H2020/MMLL-Robust',
       packages=['MMLL'],
-      install_requires=[
-          'gmpy2', 'pandas==1.0.3', 'seaborn==0.10.1', 'gmpy2==2.0.8',
-            'http://github.com/IBM/pycloudmessenger/archive/v0.7.1.tar.gz',
-            'onnxruntime==1.7.0', 'tqdm==4.61.0', 'sklearn==0.0', 'skl2onnx==1.8.0, ',
-            'sklearn2pmml==0.71.1', 'boto3==1.17.92', 'paramiko==2.7.2', 'pympler', 'dill', 'phe', 'graphviz',
-            'tensorflow==2.4.1', 'tf2onnx'
-      ])
+      install_requires=['pandas==1.0.3',
+                        'seaborn==0.10.1',
+                        'gmpy2==2.0.8',
+                        'onnxruntime==1.7.0',
+                        'tqdm==4.61.0',
+                        'sklearn==0.0',
+                        'skl2onnx==1.8.0',
+                        'sklearn2pmml==0.71.1',
+                        'boto3==1.17.92',
+                        'paramiko==2.7.2',
+                        'pympler',
+                        'dill',
+                        'phe',
+                        'graphviz',
+                        'tensorflow==2.4.1',
+                        'tf2onnx'],
+      dependency_links=['http://github.com/IBM/pycloudmessenger/archive/v0.7.1.tar.gz']
+      )
