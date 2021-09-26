@@ -18,8 +18,6 @@ conda activate mmll
 pip install git+https://github.com/Musketeer-H2020/MMLL-Robust.git
 ```
 
-You can find Hackathon scripts in /MMLL-Robust/Hackathon2021/ folder.
-
 ## Installation using venv in Linux
 
 Alternatively, you can use Python venv built-in module to create a working environment.
