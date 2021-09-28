@@ -29,8 +29,8 @@ setup(name='MMLL',
                         'graphviz',
                         'tensorflow==2.4.1',
                         'tf2onnx',
-                        'pycloudmessenger @ http://github.com/IBM/pycloudmessenger/archive/v0.7.1.tar.gz',
+                        'pycloudmessenger @ http://github.com/IBM/pycloudmessenger/archive/v0.7.3.tar.gz',
                         ],
       dependency_links=[
-          'http://github.com/IBM/pycloudmessenger/archive/v0.7.1.tar.gz']
+          'http://github.com/IBM/pycloudmessenger/archive/v0.7.3.tar.gz']
       )
